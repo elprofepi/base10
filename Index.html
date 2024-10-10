@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descomposición en Potencias de Base 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input {
+            font-size: 18px;
+            margin: 10px;
+            padding: 5px;
+            width: 80px;
+            text-align: center;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Descomposición de Números</h1>
+        <p>Introduce los coeficientes correctos para descomponer el número en forma de suma de productos de potencias de base 10.</p>
+        <div id="numberToDecompose"></div>
+        <div id="inputs"></div>
+        <button onclick="checkAnswer()">Comprobar Respuesta</button>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        let number, powersOf10;
+
+        function generateNumber() {
+            number = Math.floor(Math.random() * 10000) + 1000;  // Genera un número aleatorio entre 1000 y 9999
+            powersOf10 = [1000, 100, 10, 1];  // Potencias de 10 que los alumnos deben usar
+            document.getElementById('numberToDecompose').textContent = `Número a descomponer: ${number}`;
+            document.getElementById('inputs').innerHTML = powersOf10.map((power, index) => {
+                return `<input type="number" id="input${index}" placeholder="Coef. de ${power}">`;
+            }).join(' + ');
+            document.getElementById('feedback').textContent = ''; // Limpiar mensaje de feedback
+        }
+
+        function checkAnswer() {
+            let total = 0;
+            for (let i = 0; i < powersOf10.length; i++) {
+                const coefficient = parseInt(document.getElementById(`input${i}`).value) || 0;
+                total += coefficient * powersOf10[i];
+            }
+            if (total === number) {
+                document.getElementById('feedback').textContent = '¡Correcto! 🎉';
+                document.getElementById('feedback').style.color = 'green';
+            } else {
+                document.getElementById('feedback').textContent = `Incorrecto. Intenta de nuevo.`;
+                document.getElementById('feedback').style.color = 'red';
+            }
+        }
+
+        generateNumber();  // Generar el primer número al cargar la página
+    </script>
+</body>
+</html>
